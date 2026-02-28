@@ -97,10 +97,9 @@
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === XMLHttpRequest.DONE) {
         if (xmlhttp.status === 200) {
-          console.log(xmlhttp.responseText)
           callback(JSON.parse(xmlhttp.responseText))
-        } else {
-          console.log('Status received: ' + xmlhttp.status)
+        } else if (xmlhttp.status !== 0) {
+          // non-zero status indicates a real server error, not a cancelled request
         }
       }
     }

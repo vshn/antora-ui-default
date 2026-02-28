@@ -8,7 +8,7 @@
           page.componentVersion.displayVersion "master")}}{{#unless (eq page.layout '404')}} –
           v{{page.componentVersion.displayVersion}}{{/unless}}{{/unless}}{{/unless}}</a>
       </div>
-      <button class="navbar-burger" data-target="topbar-nav">
+      <button class="navbar-burger" aria-label="Toggle navigation menu" data-target="topbar-nav">
         <span></span>
         <span></span>
         <span></span>
@@ -32,9 +32,9 @@
         </div>
         <div class="navbar-item">
           <div class="search-field">
-            <input id="search-input" class="search-input" type="search" placeholder="Search">
-            <button type="submit" class="search-button">
-              <i class="fa fa-search"></i>
+            <input id="search-input" class="search-input" type="search" placeholder="Search" aria-label="Search">
+            <button type="submit" class="search-button" aria-label="Search">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242.156a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg>
             </button>
           </div>
         </div>
