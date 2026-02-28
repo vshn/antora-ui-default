@@ -10,23 +10,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-  
+
     steps:
-    - name: Checkout 
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Docker Run Action
-      uses: addnab/docker-run-action@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        image: node:10.14.2-stretch
-        options: -v ${{ github.workspace }}:/workspace
-        run: |
-          cd /workspace
-          npm install
-          npx gulp clean; npx gulp build; npx gulp bundle:pack
+        node-version: '20'
+        cache: 'npm'
 
-    # the artifact is available for all builds (branches, pull requests)
-    - name: 'Upload Artifact'
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build UI bundle
+      run: npx gulp bundle
+
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: ui-bundle
@@ -40,7 +41,7 @@ jobs:
         to-tag: ${{ github.ref }}
 
     - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/') # create release only if this is a tag
+      if: startsWith(github.ref, 'refs/tags/')
       uses: ncipollo/release-action@v1.16.0
       with:
         artifacts: "build/ui-bundle.zip"
