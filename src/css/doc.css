@@ -112,6 +112,10 @@ h1.page + aside.toc.embedded {
   margin: 0;
 }
 
+.doc a {
+  text-decoration: underline;
+}
+
 .doc a.bare {
   hyphens: none;
 }
