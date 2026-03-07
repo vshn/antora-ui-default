@@ -28,7 +28,7 @@ jobs:
       run: npx gulp bundle
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: ui-bundle
         path: build/ui-bundle.zip
