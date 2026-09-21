@@ -205,6 +205,10 @@ Ea mea agam graeci philosophia.
 * [ ] todo
 * [x] done!
 
+Supported: icon:check[] Unsupported: icon:times[] Reviewed icon:glasses[] by icon:users-cog[].
+
+Open menu:Authentication[Flows > Browser].
+
 Vis veri graeci legimus ad.
 
 sed::
