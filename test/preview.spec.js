@@ -33,9 +33,15 @@ async function openPage (page, path) {
     consoleErrors.push(msg.text())
   })
   page.on('pageerror', (error) => consoleErrors.push(`uncaught: ${error.message}`))
+  // The preview sets site.keys.plausibleScript; a site's reverse proxy serves the real script
+  const plausibleScripts = []
+  await page.route('**/js/pa-preview.js', (route) => {
+    plausibleScripts.push(route.request().url())
+    return route.fulfill({ contentType: 'text/javascript', body: '' })
+  })
   await page.goto(path)
   await page.evaluate(() => document.fonts.ready)
-  return { origin, thirdParty, failed, consoleErrors }
+  return { origin, thirdParty, failed, consoleErrors, plausibleScripts }
 }
 
 test.describe('preview page', () => {
@@ -114,7 +120,7 @@ test.describe('search', () => {
   async function searchFor (page, query) {
     await page.locator('#search-input').fill(query)
     await page.locator('#search-input').press('Enter')
-    await expect(page.locator('article.doc h1.page')).toHaveText(`Search Results for "${query}"`)
+    await expect(page.locator('article.doc h1.page')).toHaveText(`Search Results for "${query.trim()}"`)
   }
 
   test('finds pages with the Pagefind index built into the site', async ({ page }) => {
@@ -130,6 +136,66 @@ test.describe('search', () => {
     expect(new URL(page.url()).searchParams.get('q')).toBe('TOML')
     expect(serverSearches).toEqual([])
     expect(consoleErrors).toEqual([])
+  })
+
+  test('loads Pagefind only once the reader shows intent to search', async ({ page }) => {
+    const pagefindRequests = []
+    page.on('request', (req) => {
+      if (req.url().includes('/pagefind/')) pagefindRequests.push(new URL(req.url()).pathname)
+    })
+    await openPage(page, '/index.html')
+    await page.waitForLoadState('networkidle')
+    expect(pagefindRequests).toEqual([])
+    await page.locator('#search-input').focus()
+    await expect.poll(() => pagefindRequests).toContain('/pagefind/pagefind.js')
+    expect(await page.locator('article.doc h1.page').textContent()).not.toMatch(/Search Results/)
+  })
+
+  // Replaces plausible() with a recorder that survives navigation
+  async function recordPlausible (page) {
+    const events = []
+    await page.exposeFunction('recordPlausibleEvent', (name, options) => events.push([name, options && options.props]))
+    await page.addInitScript(() => {
+      window.plausible = (name, options) => window.recordPlausibleEvent(name, options)
+    })
+    return events
+  }
+
+  test('reports the final query and its result count to Plausible', async ({ page }) => {
+    const events = await recordPlausible(page)
+    await openPage(page, '/index.html')
+    await page.locator('#search-input').pressSequentially('TO', { delay: 50 })
+    await page.waitForTimeout(700) // long enough for the partial query to be searched
+    await searchFor(page, 'TOML ')
+    await searchFor(page, 'zzzqqqxxx')
+    await expect.poll(() => events, { timeout: 5000 }).toContainEqual(['Search', { query: 'zzzqqqxxx', results: '0' }])
+    expect(events).toEqual([
+      ['Search', { query: 'toml', results: '1' }],
+      ['Search', { query: 'zzzqqqxxx', results: '0' }],
+    ])
+  })
+
+  test('reports a query reached by pausing once the reader stays on its results', async ({ page }) => {
+    const events = await recordPlausible(page)
+    await openPage(page, '/index.html')
+    await page.locator('#search-input').pressSequentially('toml', { delay: 50 })
+    await expect(page.locator('article.doc h1.page')).toHaveText('Search Results for "toml"')
+    expect(events).toEqual([]) // not yet: the reader might still be typing
+    await expect.poll(() => events, { timeout: 5000 }).toEqual([['Search', { query: 'toml', results: '1' }]])
+  })
+
+  test('loads Plausible from the site itself when the site configures it', async ({ page }) => {
+    const { origin, plausibleScripts } = await openPage(page, '/index.html')
+    expect(plausibleScripts).toEqual([`${origin}/js/pa-preview.js`])
+    expect(await page.evaluate(() => window.plausible.o)).toEqual({ endpoint: '/api/event' })
+  })
+
+  test('reports which search result was opened', async ({ page }) => {
+    const events = await recordPlausible(page)
+    await openPage(page, '/index.html')
+    await searchFor(page, 'TOML')
+    await page.locator('article.doc .search-entry').first().click()
+    await expect.poll(() => events).toContainEqual(['Search Result Click', { query: 'toml', position: '1' }])
   })
 
   test('shows a message when nothing matches', async ({ page }) => {
