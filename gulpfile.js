@@ -18,7 +18,7 @@ const task = require('./gulp.d/tasks')
 const glob = {
   all: [srcDir, previewSrcDir],
   css: `${srcDir}/css/**/*.css`,
-  js: ['gulpfile.js', 'playwright.config.js', 'gulp.d/**/*.js', `${srcDir}/{helpers,js}/**/*.js`, 'test/**/*.js'],
+  js: ['.'], // ESLint picks the files and ignores from eslint.config.js
 }
 
 const cleanTask = createTask({
@@ -35,7 +35,7 @@ const lintCssTask = createTask({
 
 const lintJsTask = createTask({
   name: 'lint:js',
-  desc: 'Lint the JavaScript source files using eslint (JavaScript Standard Style)',
+  desc: 'Lint the JavaScript source files using eslint (neostandard)',
   call: task.lintJs(glob.js),
 })
 
@@ -47,7 +47,7 @@ const lintTask = createTask({
 
 const formatTask = createTask({
   name: 'format',
-  desc: 'Format the JavaScript source files using prettify (JavaScript Standard Style)',
+  desc: 'Fix style issues in the JavaScript source files using eslint --fix (neostandard)',
   call: task.format(glob.js),
 })
 
