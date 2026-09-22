@@ -32,6 +32,7 @@ async function openPage (page, path) {
     if (source && new URL(source).origin !== origin) return // blocked third-party script
     consoleErrors.push(msg.text())
   })
+  page.on('pageerror', (error) => consoleErrors.push(`uncaught: ${error.message}`))
   await page.goto(path)
   await page.evaluate(() => document.fonts.ready)
   return { origin, thirdParty, failed, consoleErrors }
@@ -106,6 +107,64 @@ test.describe('preview page', () => {
       })
       await expect(page.locator('aside.toc .toc-menu a.is-active')).toHaveAttribute('href', href)
     }
+  })
+})
+
+test.describe('search', () => {
+  async function searchFor (page, query) {
+    await page.locator('#search-input').fill(query)
+    await page.locator('#search-input').press('Enter')
+    await expect(page.locator('article.doc h1.page')).toHaveText(`Search Results for "${query}"`)
+  }
+
+  test('finds pages with the Pagefind index built into the site', async ({ page }) => {
+    const { consoleErrors } = await openPage(page, '/index.html')
+    const serverSearches = []
+    page.on('request', (req) => {
+      if (new URL(req.url()).pathname === '/search') serverSearches.push(req.url())
+    })
+    await searchFor(page, 'TOML')
+    const first = page.locator('article.doc .search-entry').first()
+    await expect(first).toHaveText('Hardware and Software Requirements')
+    await expect(page.locator('article.doc .search-excerpt').first()).toContainText(/toml/i)
+    expect(new URL(page.url()).searchParams.get('q')).toBe('TOML')
+    expect(serverSearches).toEqual([])
+    expect(consoleErrors).toEqual([])
+  })
+
+  test('loads Pagefind only once the reader shows intent to search', async ({ page }) => {
+    const pagefindRequests = []
+    page.on('request', (req) => {
+      if (req.url().includes('/pagefind/')) pagefindRequests.push(new URL(req.url()).pathname)
+    })
+    await openPage(page, '/index.html')
+    await page.waitForLoadState('networkidle')
+    expect(pagefindRequests).toEqual([])
+    await page.locator('#search-input').focus()
+    await expect.poll(() => pagefindRequests).toContain('/pagefind/pagefind.js')
+    expect(await page.locator('article.doc h1.page').textContent()).not.toMatch(/Search Results/)
+  })
+
+  test('shows a message when nothing matches', async ({ page }) => {
+    await openPage(page, '/index.html')
+    await searchFor(page, 'zzzqqqxxx')
+    await expect(page.locator('article.doc')).toContainText('No results found.')
+  })
+
+  test('falls back to the /search endpoint on sites without a Pagefind index', async ({ page }) => {
+    await openPage(page, '/index.html')
+    await page.route('**/pagefind/pagefind.js', (route) => route.fulfill({ status: 404 }))
+    await page.route('**/search?q=*', (route) => route.fulfill({
+      json: [{
+        name: 'Result from the server',
+        href: '/server-result.html',
+        excerpt: 'Found by the search container',
+        version: '',
+      }],
+    }))
+    await searchFor(page, 'TOML')
+    await expect(page.locator('article.doc .search-entry')).toHaveText(['Result from the server'])
+    await expect(page.locator('article.doc .search-excerpt')).toHaveText(['Found by the search container'])
   })
 })
 

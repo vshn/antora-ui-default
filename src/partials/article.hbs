@@ -1,6 +1,6 @@
-<article class="doc">
+<article class="doc" data-pagefind-body{{#with page.version}} data-pagefind-meta="version:{{this}}" data-pagefind-filter="version:{{this}}"{{/with}}>
 {{#with page.title}}
-<h1 class="page">{{{this}}}</h1>
+<h1 class="page" data-pagefind-meta="title">{{{this}}}</h1>
 {{/with}}
 {{{page.contents}}}
 {{> pagination}}
