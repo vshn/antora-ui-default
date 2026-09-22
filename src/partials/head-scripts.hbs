@@ -1,6 +1,9 @@
     {{#with site.keys.googleAnalytics}}
+    {{! Universal Analytics (UA-) IDs stopped collecting data in 2023; only GA4 (G-) IDs still work }}
+    {{#unless (starts-with this 'UA-')}}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{this}}"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','{{this}}')</script>
+    {{/unless}}
     {{/with}}
     <script>var uiRootPath = '{{{uiRootPath}}}'</script>
     {{#with site.keys.searchPagePath}}
