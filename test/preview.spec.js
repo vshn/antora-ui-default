@@ -1,4 +1,3 @@
-/* eslint-env browser */ // page.evaluate() callbacks run in the browser
 'use strict'
 
 const { test, expect } = require('@playwright/test')
@@ -94,6 +93,17 @@ test.describe('preview page', () => {
     const caret = page.locator('.doc .menuseq i.caret').first()
     await expect(caret).toBeVisible()
     expect(await caret.evaluate((el) => getComputedStyle(el, '::before').content)).toBe('"›"')
+  })
+
+  test('highlights the current section in the table of contents while scrolling', async ({ page }) => {
+    await openPage(page, '/index.html')
+    const links = page.locator('aside.toc .toc-menu a')
+    expect(await links.count()).toBeGreaterThan(3)
+    for (const index of [2, 1]) {
+      const href = await links.nth(index).getAttribute('href')
+      await page.locator(href).evaluate((heading) => window.scrollTo(0, window.scrollY + heading.getBoundingClientRect().top))
+      await expect(page.locator('aside.toc .toc-menu a.is-active')).toHaveAttribute('href', href)
+    }
   })
 })
 
