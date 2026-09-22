@@ -89,8 +89,53 @@
     }
   }
 
-  // Performs the actual search
+  var MAX_RESULTS = 10
+
+  // Loads the Pagefind index the site's build generated next to the UI, once.
+  // Resolves to null when the site has none, so search falls back to the /search endpoint.
+  var pagefind
+  function loadPagefind () {
+    if (!pagefind) {
+      // uiRootPath is set at runtime in head-scripts.hbs
+      // eslint-disable-next-line no-undef
+      var url = new URL(uiRootPath + '/../pagefind/pagefind.js', window.location.href).href
+      pagefind = import(url)
+        .then(function (module) {
+          return module.init().then(function () { return module })
+        })
+        .catch(function () { return null })
+    }
+    return pagefind
+  }
+
+  // Pagefind excerpts mark matches with <mark>; the results page shows plain text
+  function plainText (html) {
+    return new window.DOMParser().parseFromString(html, 'text/html').body.textContent
+  }
+
+  // Performs the actual search, with Pagefind when the site has an index
   function search (query, callback) {
+    loadPagefind().then(function (module) {
+      if (!module) return serverSearch(query, callback)
+      return module.search(query)
+        .then(function (response) {
+          return Promise.all(response.results.slice(0, MAX_RESULTS).map(function (result) { return result.data() }))
+        })
+        .then(function (pages) {
+          callback(pages.map(function (page) {
+            return {
+              name: page.meta.title,
+              href: page.url,
+              excerpt: plainText(page.excerpt),
+              version: page.meta.version || '',
+            }
+          }))
+        })
+    })
+  }
+
+  // Searches through the search engine container behind /search, for sites without a Pagefind index
+  function serverSearch (query, callback) {
     var XMLHttpRequest = window.XMLHttpRequest
     var xmlhttp = new XMLHttpRequest()
 
@@ -149,9 +194,10 @@
       query: query,
       results: results,
     }
-    // searchPagePath is set at runtime in head-scripts.hbs
+    // searchPagePath is set in head-scripts.hbs only when the site defines site.keys.searchPagePath
     // eslint-disable-next-line no-undef
-    window.history.pushState(state, 'Search', searchPagePath + '?q=' + encodeURIComponent(query))
+    var path = typeof searchPagePath === 'undefined' ? window.location.pathname : searchPagePath
+    window.history.pushState(state, 'Search', path + '?q=' + encodeURIComponent(query))
   }
 
   // Handles the back button to go back
