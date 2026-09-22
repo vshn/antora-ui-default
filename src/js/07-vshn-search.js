@@ -15,7 +15,7 @@
 
   // Creates the DOM structure of a single search result item
   // The website variable contains the current domain where this code is running.
-  function createSearchResultsDiv (item, website, position, query) {
+  function createSearchResultsDiv (item, website) {
     var searchParagraph = document.createElement('p')
     searchParagraph.className = 'search-paragraph'
 
@@ -45,7 +45,6 @@
     var searchDiv = document.createElement('div')
     searchDiv.className = 'search-div paragraph'
     searchDiv.onclick = function (e) {
-      reportResultClick(query, position)
       if (e.target !== searchEntry) {
         // VINT-2256: don't trigger event if right-clicking on a search result
         window.location.href = item.href
@@ -79,7 +78,7 @@
       searchArticle.appendChild(searchResult)
     } else {
       results.forEach(function (item, idx) {
-        var searchDiv = createSearchResultsDiv(item, website, idx + 1, query)
+        var searchDiv = createSearchResultsDiv(item, website)
         searchArticle.appendChild(searchDiv)
       })
     }
@@ -118,10 +117,8 @@
   function search (query, callback) {
     loadPagefind().then(function (module) {
       if (!module) return serverSearch(query, callback)
-      var total
       return module.search(query)
         .then(function (response) {
-          total = response.results.length
           return Promise.all(response.results.slice(0, MAX_RESULTS).map(function (result) { return result.data() }))
         })
         .then(function (pages) {
@@ -132,7 +129,7 @@
               excerpt: plainText(page.excerpt),
               version: page.meta.version || '',
             }
-          }), total)
+          }))
         })
     })
   }
@@ -145,8 +142,7 @@
     xmlhttp.onreadystatechange = function () {
       if (xmlhttp.readyState === XMLHttpRequest.DONE) {
         if (xmlhttp.status === 200) {
-          var results = JSON.parse(xmlhttp.responseText)
-          callback(results, results.length)
+          callback(JSON.parse(xmlhttp.responseText))
         } else if (xmlhttp.status !== 0) {
           // non-zero status indicates a real server error, not a cancelled request
         }
@@ -156,45 +152,6 @@
     var url = '/search?q=' + encodeURIComponent(query)
     xmlhttp.open('GET', url, true)
     xmlhttp.send()
-  }
-
-  // Reports searches to Plausible when the site loads it (see head-scripts.hbs).
-  // A search that ran after a pause in typing is reported only once the reader stays on its results,
-  // so partial words typed on the way to the final query are not counted as searches.
-  var REPORT_DELAY = 2000
-  var pendingReport = null
-  var reportTimeout = null
-  var lastReportedQuery = null
-
-  function track (name, props) {
-    if (typeof window.plausible === 'function') window.plausible(name, { props: props })
-  }
-
-  function normalizeQuery (query) {
-    return query.trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 100)
-  }
-
-  function flushReport () {
-    if (reportTimeout) clearTimeout(reportTimeout)
-    reportTimeout = null
-    var report = pendingReport
-    pendingReport = null
-    if (!report || report.query === lastReportedQuery) return
-    lastReportedQuery = report.query
-    track('Search', { query: report.query, results: String(report.total) })
-  }
-
-  // explicit: the reader pressed Enter or the search button, rather than pausing while typing
-  function reportSearch (query, total, explicit) {
-    if (reportTimeout) clearTimeout(reportTimeout)
-    pendingReport = { query: normalizeQuery(query), total: total }
-    if (explicit) flushReport()
-    else reportTimeout = setTimeout(flushReport, REPORT_DELAY)
-  }
-
-  function reportResultClick (query, position) {
-    flushReport()
-    track('Search Result Click', { query: normalizeQuery(query), position: String(position) })
   }
 
   var contentDiv = document.querySelector('.content')
@@ -220,14 +177,13 @@
   var timeout = null
 
   // Clears timeout and searches immediately
-  function searchNow (explicit) {
+  function searchNow () {
     if (timeout) clearTimeout(timeout)
     var query = searchInput.value
     if (query.length > 0) {
-      search(query, function (results, total) {
+      search(query, function (results) {
         display(results, query)
         updateURL(results, query)
-        reportSearch(query, total, explicit)
       })
     }
   }
@@ -263,7 +219,7 @@
   function triggerDelayedSearch () {
     if (timeout) clearTimeout(timeout)
     timeout = setTimeout(function () {
-      searchNow(false)
+      searchNow()
     }, 500)
   }
 
@@ -297,21 +253,18 @@
 
   // VINT-2255: Event to be fired by a search page exposed through OpenSearch
   searchInput.addEventListener('search', function () {
-    searchNow(true)
+    searchNow()
   })
 
   // If the user presses enter, search directly
   searchInput.addEventListener('keydown', function (event) {
     if (event.keyCode === 13) {
-      searchNow(true)
+      searchNow()
     }
   })
 
   // If the user clicks on the search icon, search directly
   searchButton.addEventListener('click', function (event) {
-    searchNow(true)
+    searchNow()
   })
-
-  // A reader who leaves while results are showing has found their final query
-  window.addEventListener('pagehide', flushReport)
 })()

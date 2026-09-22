@@ -2,11 +2,6 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id={{this}}"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','{{this}}')</script>
     {{/with}}
-    {{#with site.keys.plausibleScript}}
-    {{! served from the site's own domain: its nginx proxies /js/<script> and /api/event to plausible.io }}
-    <script async src="/js/{{this}}"></script>
-    <script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init({endpoint:'/api/event'})</script>
-    {{/with}}
     <script>var uiRootPath = '{{{uiRootPath}}}'</script>
     {{#with site.keys.searchPagePath}}
     <script>var searchPagePath = '{{this}}'</script>

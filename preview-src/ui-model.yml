@@ -3,8 +3,6 @@ site:
   url: http://localhost:5252
   title: VSHN Handbook
   homeUrl: &home_url /xyz/5.2/index.html
-  keys:
-    plausibleScript: pa-preview.js
   components:
   - name: abc
     title: Project ABC
