@@ -187,6 +187,39 @@ Navigation, the table of contents and the pagination links are left out.
 
 `gulp preview` builds a Pagefind index of the preview pages too, so search works in the preview.
 
+==== Search Analytics
+
+With `site.keys.plausibleScript` set in the playbook, the UI loads https://plausible.io[Plausible] from the site's own domain and reports searches:
+
+[source,yaml]
+----
+site:
+  keys:
+    plausibleScript: pa-XXXXXXXX.js # the site's script name from Plausible
+----
+
+* `Search`, with the normalized query (`query`) and the number of results (`results`).
+  A search that ran after a pause in typing is reported only once the reader stays on its results for 2 seconds, clicks a result, or leaves the page.
+  Partial words typed on the way to the final query are not reported.
+* `Search Result Click`, with the query and the position of the opened result (`position`).
+
+The browser never contacts plausible.io directly, so the site's nginx has to proxy both paths:
+
+----
+location = /js/pa-XXXXXXXX.js {
+    proxy_pass https://plausible.io/js/pa-XXXXXXXX.js;
+    proxy_ssl_server_name on;
+    proxy_set_header Host plausible.io;
+}
+
+location = /api/event {
+    proxy_pass https://plausible.io/api/event;
+    proxy_ssl_server_name on;
+    proxy_set_header Host plausible.io;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+}
+----
+
 === Test the Preview
 
 Browser tests in the [.path]_test/_ folder open the preview in headless Chromium and check that it renders: `icon:name[]` macros and admonition icons are visible, web fonts come from the site itself, and no third-party resources load beyond an allowlist.
