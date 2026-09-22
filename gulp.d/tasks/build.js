@@ -23,6 +23,14 @@ const vfs = require('vinyl-fs')
 
 module.exports = (src, dest, preview) => () => {
   const opts = { base: src, cwd: src }
+  const copyFont = (asset) => {
+    const relpath = asset.pathname.substr(1)
+    const abspath = require.resolve(relpath)
+    const basename = ospath.basename(abspath)
+    const destpath = ospath.join(dest, 'font', basename)
+    if (!fs.pathExistsSync(destpath)) fs.copySync(abspath, destpath)
+    return path.join('..', 'font', basename)
+  }
   const sourcemaps = preview || process.env.SOURCEMAPS === 'true'
   const postcssPlugins = [
     postcssImport,
@@ -36,17 +44,8 @@ module.exports = (src, dest, preview) => () => {
         if (newestMtime > file.stat.mtime) file.stat.mtimeMs = +(file.stat.mtime = newestMtime)
       }),
     postcssUrl([
-      {
-        filter: '**/~typeface-*/files/*',
-        url: (asset) => {
-          const relpath = asset.pathname.substr(1)
-          const abspath = require.resolve(relpath)
-          const basename = ospath.basename(abspath)
-          const destpath = ospath.join(dest, 'font', basename)
-          if (!fs.pathExistsSync(destpath)) fs.copySync(abspath, destpath)
-          return path.join('..', 'font', basename)
-        },
-      },
+      { filter: '**/~typeface-*/files/*', url: copyFont },
+      { filter: '**/~@fortawesome/fontawesome-free/webfonts/*', url: copyFont },
     ]),
     postcssVar({ preserve: preview }),
     preview ? postcssCalc : () => {},

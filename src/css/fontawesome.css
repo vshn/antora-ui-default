@@ -1,0 +1,16 @@
+/* Font Awesome 5 Free, solid style only: Asciidoctor renders icon:name[] as <i class="fa fa-name"> */
+@import "@fortawesome/fontawesome-free/css/fontawesome.css";
+
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url(~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2) format("woff2");
+}
+
+.fa,
+.fas {
+  font-family: "Font Awesome 5 Free"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
+  font-weight: 900;
+}
