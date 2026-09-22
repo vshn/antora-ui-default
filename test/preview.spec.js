@@ -101,7 +101,9 @@ test.describe('preview page', () => {
     expect(await links.count()).toBeGreaterThan(3)
     for (const index of [2, 1]) {
       const href = await links.nth(index).getAttribute('href')
-      await page.locator(href).evaluate((heading) => window.scrollTo(0, window.scrollY + heading.getBoundingClientRect().top))
+      await page.locator(href).evaluate((heading) => {
+        window.scrollTo(0, window.scrollY + heading.getBoundingClientRect().top)
+      })
       await expect(page.locator('aside.toc .toc-menu a.is-active')).toHaveAttribute('href', href)
     }
   })

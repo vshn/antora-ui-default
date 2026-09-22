@@ -4,7 +4,9 @@ const globals = require('globals')
 const neostandard = require('neostandard')
 
 module.exports = [
-  ...neostandard({ ignores: neostandard.resolveIgnoresFromGitignore() }),
+  // a config object with only ignores applies globally; neostandard's own ignores are scoped to its blocks
+  { ignores: neostandard.resolveIgnoresFromGitignore() },
+  ...neostandard(),
   {
     // src/js runs in the browser; so do the page.evaluate() callbacks in test/
     files: ['src/js/**/*.js', 'test/**/*.js'],
