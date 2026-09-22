@@ -1,0 +1,7 @@
+= UI Bundle Fixture
+
+A page built by the Antora image the documentation sites use, to check that it can load the UI bundle.
+
+NOTE: Admonitions draw their icon from the UI.
+
+Supported: icon:check[]
