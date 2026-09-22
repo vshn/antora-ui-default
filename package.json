@@ -10,11 +10,15 @@
   "engines": {
     "node": ">= 8.0.0"
   },
+  "scripts": {
+    "test": "playwright test"
+  },
   "browserslist": [
     "last 2 versions"
   ],
   "devDependencies": {
     "@fortawesome/fontawesome-free": "~5.15.4",
+    "@playwright/test": "~1.63.0",
     "asciidoctor.js": "1.5.9",
     "autoprefixer": "~9.8.0",
     "browser-pack-flat": "~3.5.0",

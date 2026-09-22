@@ -22,10 +22,23 @@ jobs:
         cache: 'npm'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Build UI bundle
       run: npx gulp bundle
+
+    - name: Install Playwright browser
+      run: npx playwright install --with-deps chromium
+
+    - name: Test preview
+      run: npm test
+
+    - name: Upload test results
+      if: failure()
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-results
+        path: test-results/
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v7
