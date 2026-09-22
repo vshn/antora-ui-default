@@ -16,6 +16,11 @@
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true,
       "automergeType": "pr"
+    },
+    {
+      "description": "Keep Font Awesome on v5: content uses v5 icon names in icon:name[] macros, and v6 and v7 renamed icons and styles",
+      "matchPackageNames": ["@fortawesome/fontawesome-free"],
+      "allowedVersions": "<6"
     }
   ]
 }
