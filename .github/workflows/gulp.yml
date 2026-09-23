@@ -27,6 +27,9 @@ jobs:
     - name: Build UI bundle
       run: npx gulp bundle
 
+    - name: Build a page with the bundle in the sites' Antora image
+      run: sh test/antora-image.sh
+
     - name: Install Playwright browser
       run: npx playwright install --with-deps chromium
 

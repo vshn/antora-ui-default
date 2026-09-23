@@ -1,0 +1,16 @@
+# Builds test/fixtures/antora-site with the UI bundle from build/, inside the Antora image (see test/antora-image.sh)
+site:
+  title: UI Bundle Fixture
+content:
+  sources:
+  - url: /tmp/fixture-content
+    branches: HEAD
+ui:
+  bundle:
+    url: /antora/build/ui-bundle.zip
+asciidoc:
+  attributes:
+    icons: font
+output:
+  dir: /antora/build/antora-site
+  clean: true
