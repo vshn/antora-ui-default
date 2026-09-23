@@ -1,0 +1,769 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - navigation [ref=e2]:
+      - link "VSHN Offerings" [ref=e6] [cursor=pointer]:
+        - /url: https://products.vshn.ch
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - link "VSHN" [ref=e10] [cursor=pointer]:
+            - /url: "#"
+          - text: 🔗 🔗 🔗 🔗 🔗 🔗 🔗 🔗
+        - generic [ref=e12]:
+          - searchbox "Search" [ref=e13]
+          - button "Search" [ref=e14] [cursor=pointer]
+  - generic [ref=e17]:
+    - complementary [ref=e19]:
+      - generic [ref=e20]:
+        - navigation [ref=e22]:
+          - heading [level=3] [ref=e23]:
+            - link "VSHN Offerings" [ref=e24] [cursor=pointer]:
+              - /url: ../index.html
+          - list [ref=e25]:
+            - listitem [ref=e26]:
+              - list [ref=e27]:
+                - listitem [ref=e28]:
+                  - button "Toggle section" [ref=e29] [cursor=pointer]
+                  - link "Servala" [ref=e30] [cursor=pointer]:
+                    - /url: ../servala/index.html
+                - listitem [ref=e31]:
+                  - button "Toggle section" [ref=e32] [cursor=pointer]
+                  - link "Application Catalog" [ref=e33] [cursor=pointer]:
+                    - /url: index.html
+                  - list [ref=e34]:
+                    - listitem [ref=e35]:
+                      - link "Pricing" [ref=e36] [cursor=pointer]:
+                        - /url: pricing.html
+                    - listitem [ref=e37]:
+                      - button "Toggle section" [ref=e38] [cursor=pointer]
+                      - link "Services" [ref=e39] [cursor=pointer]:
+                        - /url: services_index.html
+                      - list [ref=e40]:
+                        - listitem [ref=e41]:
+                          - button "Toggle section" [ref=e42] [cursor=pointer]
+                          - text: PostgreSQL by VSHN
+                        - listitem [ref=e43]:
+                          - link "Redis by VSHN" [ref=e44] [cursor=pointer]:
+                            - /url: redis.html
+                        - listitem [ref=e45]:
+                          - link "MariaDB by VSHN" [ref=e46] [cursor=pointer]:
+                            - /url: mariadb.html
+                        - listitem [ref=e47]:
+                          - link "Nextcloud by VSHN" [ref=e48] [cursor=pointer]:
+                            - /url: nextcloud.html
+                        - listitem [ref=e49]:
+                          - link "Keycloak by VSHN" [ref=e50] [cursor=pointer]:
+                            - /url: keycloak.html
+                        - listitem [ref=e51]:
+                          - link "Forgejo by VSHN" [ref=e52] [cursor=pointer]:
+                            - /url: forgejo.html
+                        - listitem [ref=e53]:
+                          - link "Garage by VSHN" [ref=e54] [cursor=pointer]:
+                            - /url: garage.html
+                        - listitem [ref=e55]:
+                          - link "Kafka by VSHN" [ref=e56] [cursor=pointer]:
+                            - /url: kafka.html
+                        - listitem [ref=e57]:
+                          - link "Grafana by VSHN" [ref=e58] [cursor=pointer]:
+                            - /url: grafana.html
+                        - listitem [ref=e59]:
+                          - link "OpenBao by VSHN" [ref=e60] [cursor=pointer]:
+                            - /url: openbao.html
+                        - listitem [ref=e61]:
+                          - button "Toggle section" [ref=e62] [cursor=pointer]
+                          - text: Reselling Services
+                    - listitem [ref=e63]:
+                      - link "Data Protection" [ref=e64] [cursor=pointer]:
+                        - /url: data_protection.html
+                - listitem [ref=e65]:
+                  - button "Toggle section" [ref=e66] [cursor=pointer]
+                  - link "APPUiO" [ref=e67] [cursor=pointer]:
+                    - /url: ../appuio/index.html
+                - listitem [ref=e68]:
+                  - button "Toggle section" [ref=e69] [cursor=pointer]
+                  - link "Managed OpenShift" [ref=e70] [cursor=pointer]:
+                    - /url: ../openshift/index.html
+                - listitem [ref=e71]:
+                  - link "Codey" [ref=e72] [cursor=pointer]:
+                    - /url: ../codey.html
+                - listitem [ref=e73]:
+                  - link "GitLab" [ref=e74] [cursor=pointer]:
+                    - /url: gitlab.html
+                - listitem [ref=e75]:
+                  - button "Toggle section" [ref=e76] [cursor=pointer]
+                  - link "Solution Building Blocks" [ref=e77] [cursor=pointer]:
+                    - /url: ../solution_building_blocks.html
+                - listitem [ref=e78]:
+                  - button "Toggle section" [ref=e79] [cursor=pointer]
+                  - link "Support Plans" [ref=e80] [cursor=pointer]:
+                    - /url: ../support_plans.html
+                - listitem [ref=e81]:
+                  - link "Consulting" [ref=e82] [cursor=pointer]:
+                    - /url: ../consulting.html
+                - listitem [ref=e83]:
+                  - link "Service Levels" [ref=e84] [cursor=pointer]:
+                    - /url: ../service_levels.html
+                - listitem [ref=e85]:
+                  - button "Toggle section" [ref=e86] [cursor=pointer]
+                  - link "Legal Documents" [ref=e87] [cursor=pointer]:
+                    - /url: ../legal/index.html
+                - listitem [ref=e88]:
+                  - button "Toggle section" [ref=e89] [cursor=pointer]
+                  - text: Deprecated
+                - listitem [ref=e90]:
+                  - link "Roadmap" [ref=e91] [cursor=pointer]:
+                    - /url: ../roadmap.html
+                - listitem [ref=e92]:
+                  - button "Toggle section" [ref=e93] [cursor=pointer]
+                  - text: About
+        - generic [ref=e95] [cursor=pointer]:
+          - generic [ref=e96]: VSHN Offerings
+          - generic [ref=e97]: default
+    - main [ref=e98]:
+      - navigation [ref=e99]:
+        - link "Home" [ref=e100] [cursor=pointer]:
+          - /url: ../index.html
+        - navigation "breadcrumbs" [ref=e101]:
+          - list [ref=e102]:
+            - listitem [ref=e103]:
+              - link "VSHN Offerings" [ref=e104] [cursor=pointer]:
+                - /url: ../index.html
+              - text: /
+            - listitem [ref=e105]:
+              - link "Application Catalog" [ref=e106] [cursor=pointer]:
+                - /url: index.html
+              - text: /
+            - listitem [ref=e107]:
+              - link "Services" [ref=e108] [cursor=pointer]:
+                - /url: services_index.html
+              - text: /
+            - listitem [ref=e109]:
+              - link "Forgejo by VSHN" [ref=e110] [cursor=pointer]:
+                - /url: forgejo.html
+        - link "Edit this Page" [ref=e112] [cursor=pointer]:
+          - /url: https://git.vshn.net/vshn/docs/products/edit/master/docs/modules/ROOT/pages/appcat/forgejo.adoc
+      - generic [ref=e113]:
+        - complementary [ref=e114]:
+          - generic [ref=e115]:
+            - heading "Contents" [level=3] [ref=e116]
+            - list [ref=e117]:
+              - listitem [ref=e118]:
+                - link "Features" [ref=e119] [cursor=pointer]:
+                  - /url: "#_features"
+              - listitem [ref=e120]:
+                - link "Forgejo Support" [ref=e121] [cursor=pointer]:
+                  - /url: "#_forgejo_support"
+              - listitem [ref=e122]:
+                - link "Supported versions" [ref=e123] [cursor=pointer]:
+                  - /url: "#_supported_versions"
+              - listitem [ref=e124]:
+                - link "Service Level Indicator (SLI)" [ref=e125] [cursor=pointer]:
+                  - /url: "#_service_level_indicator_sli"
+              - listitem [ref=e126]:
+                - link "Data Protection" [ref=e127] [cursor=pointer]:
+                  - /url: "#_data_protection"
+              - listitem [ref=e128]:
+                - link "Recurring Maintenance" [ref=e129] [cursor=pointer]:
+                  - /url: "#_recurring_maintenance"
+              - listitem [ref=e130]:
+                - link "Users responsibilities" [ref=e131] [cursor=pointer]:
+                  - /url: "#_users_responsibilities"
+              - listitem [ref=e132]:
+                - link "Pricing" [ref=e133] [cursor=pointer]:
+                  - /url: "#_pricing"
+              - listitem [ref=e134]:
+                - 'link "Addon: Forgejo Runner" [ref=e135] [cursor=pointer]':
+                  - /url: "#_addon_forgejo_runner"
+              - listitem [ref=e136]:
+                - link "Service Maturity" [ref=e137] [cursor=pointer]:
+                  - /url: "#_service_maturity"
+              - listitem [ref=e138]:
+                - link "FAQ" [ref=e139] [cursor=pointer]:
+                  - /url: "#_faq"
+        - article [ref=e140]:
+          - heading "Forgejo by VSHN" [level=1] [ref=e141]
+          - generic [ref=e143]:
+            - table [ref=e145]:
+              - rowgroup [ref=e146]:
+                - row "This is the technical product documentation. Please also see the marketing website at www.forgejo.ch 🔗." [ref=e147]:
+                  - cell [ref=e148]:
+                    - generic "Note" [ref=e149]
+                  - cell [ref=e150]:
+                    - paragraph [ref=e152]:
+                      - text: This is the technical product documentation. Please also see the marketing website at
+                      - link "www.forgejo.ch 🔗" [ref=e153] [cursor=pointer]:
+                        - /url: https://www.forgejo.ch
+                      - text: .
+            - paragraph [ref=e155]:
+              - link "Forgejo 🔗" [ref=e156] [cursor=pointer]:
+                - /url: https://forgejo.org/
+              - text: ", managed by VSHN, for you."
+            - generic [ref=e157]:
+              - blockquote [ref=e158]:
+                - paragraph [ref=e160]: Forgejo is a self-hosted lightweight software forge. Easy to install and low maintenance, it just does the job.
+              - generic [ref=e161]: — Forgejo Website
+            - paragraph [ref=e163]: "Our service offers a compelling solution for businesses seeking secure and efficient code hosting. Based in Switzerland, our service provides several key advantages:"
+            - generic [ref=e165]:
+              - term [ref=e166]: Switzerland Based
+              - definition [ref=e167]:
+                - paragraph [ref=e168]: Hosting your Forgejo service by a company based in Switzerland ensures data privacy, security, and compliance with strict Swiss regulations.
+              - term [ref=e169]: Unrestricted Access to Forgejo Features
+              - definition [ref=e170]:
+                - paragraph [ref=e171]: With our service, you have access to the full range of Forgejo’s features, ensuring you can tailor your code hosting needs to your specific needs.
+              - term [ref=e172]: Simple Price Model
+              - definition [ref=e173]:
+                - paragraph [ref=e174]: We offer a straightforward pricing model, making it easy for you to budget and plan for your code hosting needs without hidden costs or surprises.
+              - term [ref=e175]: SLA Available
+              - definition [ref=e176]:
+                - paragraph [ref=e177]: For added peace of mind, we offer Service Level Agreements (SLAs) that guarantee the reliability and availability of your Forgejo service.
+              - term [ref=e178]: Run by Experts Running Software
+              - definition [ref=e179]:
+                - paragraph [ref=e180]: Our service is managed by a team of experts with a proven track record of running complex software systems, ensuring that your Forgejo service is in capable hands.
+            - paragraph [ref=e182]: In summary, our service provides a secure, feature-rich, and hassle-free solution for code hosting, all while benefiting from Switzerland’s robust data protection laws and the expertise of DevOps professionals.
+            - table [ref=e184]:
+              - rowgroup [ref=e185]:
+                - row "The user documentation is available under docs.appcat.ch 🔗." [ref=e186]:
+                  - cell [ref=e187]:
+                    - generic "Tip" [ref=e188]
+                  - cell [ref=e189]:
+                    - text: The user documentation is available under
+                    - link "docs.appcat.ch 🔗" [ref=e190] [cursor=pointer]:
+                      - /url: https://docs.appcat.ch/
+                    - text: .
+            - generic [ref=e192]:
+              - term [ref=e193]: Availability of the service
+              - definition [ref=e194]:
+                - list [ref=e196]:
+                  - listitem [ref=e197]:
+                    - paragraph [ref=e198]:
+                      - link "APPUiO" [ref=e199] [cursor=pointer]:
+                        - /url: ../appuio/index.html
+                      - text: without
+                      - link "SLA profile with availability target" [ref=e200] [cursor=pointer]:
+                        - /url: ../service_levels.html
+                  - listitem [ref=e201]:
+                    - paragraph [ref=e202]:
+                      - link "Managed OpenShift" [ref=e203] [cursor=pointer]:
+                        - /url: ../openshift/index.html
+          - generic [ref=e204]:
+            - heading "Features" [level=2] [ref=e205]
+            - generic [ref=e206]:
+              - table [ref=e207]:
+                - rowgroup [ref=e211]:
+                  - row [ref=e212]:
+                    - rowheader [ref=e213]:
+                      - paragraph [ref=e214]:
+                        - text: No downtime during
+                        - link [ref=e215] [cursor=pointer]:
+                          - /url: "#_recurring_maintenance"
+                          - strong [ref=e216]: regular maintenance
+                    - cell " [1]" [ref=e217]:
+                      - paragraph [ref=e218]:
+                        - generic [ref=e219]: 
+                        - superscript [ref=e221]:
+                          - text: "["
+                          - link "1" [ref=e222] [cursor=pointer]:
+                            - /url: "#_footnotedef_1"
+                          - text: "]"
+                  - row [ref=e223]:
+                    - rowheader [ref=e224]:
+                      - paragraph [ref=e225]: High availability
+                    - cell "" [ref=e226]:
+                      - paragraph [ref=e227]:
+                        - generic [ref=e228]: 
+                  - row [ref=e230]:
+                    - rowheader [ref=e231]:
+                      - paragraph [ref=e232]:
+                        - text: Infinite
+                        - superscript [ref=e233]:
+                          - text: "["
+                          - link "2" [ref=e234] [cursor=pointer]:
+                            - /url: "#_footnotedef_2"
+                          - text: "]"
+                        - text: Users, Repositories and Organisations
+                    - cell "" [ref=e235]:
+                      - paragraph [ref=e236]:
+                        - generic [ref=e237]: 
+                  - row [ref=e239]:
+                    - rowheader [ref=e240]:
+                      - paragraph [ref=e241]: Admin user access (via admin web console)
+                    - cell "" [ref=e242]:
+                      - paragraph [ref=e243]:
+                        - generic [ref=e244]: 
+                  - row [ref=e246]:
+                    - rowheader [ref=e247]:
+                      - paragraph [ref=e248]:
+                        - link [ref=e249] [cursor=pointer]:
+                          - /url: "#_addon_forgejo_runner"
+                          - strong [ref=e250]: Forgejo Actions runner
+                    - cell "" [ref=e251]:
+                      - paragraph [ref=e252]:
+                        - generic [ref=e253]: 
+                  - row [ref=e255]:
+                    - rowheader [ref=e256]:
+                      - paragraph [ref=e257]:
+                        - text: "Database:"
+                        - link [ref=e258] [cursor=pointer]:
+                          - /url: postgresql.html
+                          - strong [ref=e259]: PostgreSQL by VSHN
+                    - cell "" [ref=e260]:
+                      - paragraph [ref=e261]:
+                        - generic [ref=e262]: 
+                  - row [ref=e264]:
+                    - rowheader [ref=e265]:
+                      - paragraph [ref=e266]: TLS encrypted database connection
+                    - cell "" [ref=e267]:
+                      - paragraph [ref=e268]:
+                        - generic [ref=e269]: 
+                  - row [ref=e271]:
+                    - rowheader [ref=e272]:
+                      - paragraph [ref=e273]: Custom subdomain
+                    - cell "" [ref=e274]:
+                      - paragraph [ref=e275]:
+                        - generic [ref=e276]: 
+                  - row [ref=e278]:
+                    - rowheader [ref=e279]:
+                      - paragraph [ref=e280]: Guaranteed performance
+                    - cell " [3]" [ref=e281]:
+                      - paragraph [ref=e282]:
+                        - generic [ref=e283]: 
+                        - superscript [ref=e285]:
+                          - text: "["
+                          - link "3" [ref=e286] [cursor=pointer]:
+                            - /url: "#_footnotedef_3"
+                          - text: "]"
+                  - row [ref=e287]:
+                    - rowheader [ref=e288]:
+                      - paragraph [ref=e289]: Forgejo specific metrics and dashboards
+                    - cell "" [ref=e290]:
+                      - paragraph [ref=e291]:
+                        - generic [ref=e292]: 
+                  - row [ref=e294]:
+                    - rowheader [ref=e295]:
+                      - paragraph [ref=e296]:
+                        - link [ref=e297] [cursor=pointer]:
+                          - /url: "#_forgejo_support"
+                          - strong [ref=e298]: Support
+                    - cell "" [ref=e299]:
+                      - paragraph [ref=e300]:
+                        - generic [ref=e301]: 
+              - paragraph [ref=e304]: "The following common features are available as well:"
+              - table [ref=e305]:
+                - rowgroup [ref=e309]:
+                  - row [ref=e310]:
+                    - rowheader [ref=e311]:
+                      - paragraph [ref=e312]: Self-Service Instance Provisioning and Configuration
+                    - cell [ref=e313]:
+                      - paragraph [ref=e314]: Service instances can be self-service ordered and are provisioned fully automated in the background. Access to self-service provisioning is provided via custom Kubernetes configuration objects in the Kubernetes cluster or via Open Service Broker API (on request).
+                  - row [ref=e315]:
+                    - rowheader [ref=e316]:
+                      - paragraph [ref=e317]: Best-Practice Configuration Management
+                    - cell [ref=e318]:
+                      - paragraph [ref=e319]: Services are configured with best practices and the configuration is updated continuously as we learn improvements during day-2 operations and from the community. Industry standards are used for security configuration and wherever possible TLS encrypted connections are offered by default.
+                  - row [ref=e320]:
+                    - rowheader [ref=e321]:
+                      - paragraph [ref=e322]: Maintenance and Security Operations
+                    - cell [ref=e323]:
+                      - paragraph [ref=e324]: Patch updates are applied as they get available. We monitor security information for services and apply zero-day patches or workaround configuration as they become available.
+                  - row [ref=e325]:
+                    - rowheader [ref=e326]:
+                      - paragraph [ref=e327]: Data Protection and Recovery
+                    - cell [ref=e328]:
+                      - paragraph [ref=e329]: All services offer regular backup and deletion protection options. See the service descriptions for more details.
+                  - row [ref=e330]:
+                    - rowheader [ref=e331]:
+                      - paragraph [ref=e332]: Service Metrics
+                    - cell [ref=e333]:
+                      - paragraph [ref=e334]:
+                        - text: Performance metrics are collected regularly. The metrics are automatically monitored and acted upon irregularities, see
+                        - emphasis [ref=e335]: Monitoring and Alerting
+                        - text: below.
+                  - row [ref=e336]:
+                    - rowheader [ref=e337]:
+                      - paragraph [ref=e338]: Monitoring and Alerting
+                    - cell [ref=e339]:
+                      - paragraph [ref=e340]:
+                        - text: Service Level Indicators are monitored and alerted upon. Depending on the
+                        - link "service level" [ref=e341] [cursor=pointer]:
+                          - /url: ../service_levels.html
+                        - text: alerts are handled by a VSHNeer. User alerting is highly encouraged. See the service descriptions for more details.
+                  - row [ref=e342]:
+                    - rowheader [ref=e343]:
+                      - paragraph [ref=e344]: Service Logging
+                    - cell [ref=e345]:
+                      - paragraph [ref=e346]: All logs are collected and are available to debug service errors.
+                  - row [ref=e347]:
+                    - rowheader [ref=e348]:
+                      - paragraph [ref=e349]: Support by VSHN or Partner
+                    - cell [ref=e350]:
+                      - paragraph [ref=e351]:
+                        - text: Support from VSHN is available at additional cost via
+                        - link "Support Plans 🔗" [ref=e352] [cursor=pointer]:
+                          - /url: https://products.vshn.ch/support_plans.html
+                        - text: . Depending on the service, additional support by the software partner or a third-party might be available at additional cost.
+          - generic [ref=e353]:
+            - heading "Forgejo Support" [level=2] [ref=e354]
+            - generic [ref=e355]:
+              - paragraph [ref=e357]: "Support for Forgejo is organized in three levels:"
+              - generic [ref=e359]:
+                - term [ref=e360]: "Level 1: End-User Support"
+                - definition [ref=e361]:
+                  - paragraph [ref=e362]: Helping users with the daily use of Forgejo is the customer’s concern. End-user support isn’t included in this service.
+                - term [ref=e363]: "Level 2: Operations Support"
+                - definition [ref=e364]:
+                  - paragraph [ref=e365]:
+                    - text: VSHN provides support concerning the operations of Forgejo and the database. Our
+                    - link "Support Plans" [ref=e366] [cursor=pointer]:
+                      - /url: ../support_plans.html
+                    - text: describes in detail what VSHN offers in terms of support.
+                - term [ref=e367]: "Level 3: Application Support"
+                - definition [ref=e368]:
+                  - paragraph [ref=e369]:
+                    - text: The Forgejo community provides support on a best-effort basis on their
+                    - link "Matrix chat channel" [ref=e370] [cursor=pointer]:
+                      - /url: https://matrix.to/#/#forgejo:matrix.org
+                    - text: .
+          - generic [ref=e371]:
+            - heading "Supported versions" [level=2] [ref=e372]
+            - paragraph [ref=e375]:
+              - text: We only support the
+              - link "latest Forgejo 🔗" [ref=e376] [cursor=pointer]:
+                - /url: https://forgejo.org/releases/
+              - text: version.
+          - generic [ref=e377]:
+            - heading "Service Level Indicator (SLI)" [level=2] [ref=e378]
+            - generic [ref=e379]:
+              - paragraph [ref=e381]:
+                - text: According to the
+                - link "service levels" [ref=e382] [cursor=pointer]:
+                  - /url: ../service_levels.html
+                - text: "the SLI \"Up\" is defined as follows:"
+              - blockquote [ref=e384]:
+                - paragraph [ref=e386]: Forgejo responds to HTTP requests to the authentication page. The service is considered up, if the request succeeds in under 5 seconds.
+          - generic [ref=e387]:
+            - heading "Data Protection" [level=2] [ref=e388]
+            - generic [ref=e389]:
+              - paragraph [ref=e391]:
+                - text: All persistent data of Forgejo is stored in a
+                - link "PostgreSQL" [ref=e392] [cursor=pointer]:
+                  - /url: postgresql.html
+                - text: database and on the filesystem. See
+                - link "Data Protection" [ref=e393] [cursor=pointer]:
+                  - /url: postgresql.html#_data_protection
+                - text: in the PostgreSQL product description for more details about the database backups.
+              - paragraph [ref=e395]:
+                - text: Data stored on the filesystem is kept secure using
+                - link "K8up 🔗" [ref=e396] [cursor=pointer]:
+                  - /url: https://k8up.io/
+                - text: .
+          - generic [ref=e397]:
+            - heading "Recurring Maintenance" [level=2] [ref=e398]
+            - generic [ref=e399]:
+              - paragraph [ref=e401]: We conduct recurring maintenance tasks on the service to keep it stable and up-to-date.
+              - generic [ref=e403]:
+                - term [ref=e404]: Planned Maintenance Activities
+                - definition [ref=e405]:
+                  - list [ref=e407]:
+                    - listitem [ref=e408]:
+                      - paragraph [ref=e409]: Updating of the base container image with the latest patched version, this causes a service restart.
+                    - listitem [ref=e410]:
+                      - paragraph [ref=e411]: If there’s a newer minor version available that does not contain breaking changes, then the service will automatically be updated to that minor version.
+                    - listitem [ref=e412]:
+                      - paragraph [ref=e413]: Major upgrades are not automatic.
+                    - listitem [ref=e414]:
+                      - paragraph [ref=e415]: Configuration improvements as we learn new best-practices or some configuration proved to be non-optimal.
+                - term [ref=e416]: Mandatory Maintenance Activities
+                - definition [ref=e417]:
+                  - list [ref=e419]:
+                    - listitem [ref=e420]:
+                      - paragraph [ref=e421]: Security issue (CVE) mitigation by updating to a patched version or configuration adjustments, usually causes service restart.
+                    - listitem [ref=e422]:
+                      - paragraph [ref=e423]: Regular maintenance on the underlying platform, usually causing up to 2 restarts per replica.
+                - term [ref=e424]: Maintenance Windows
+                - definition [ref=e425]:
+                  - paragraph [ref=e426]: This is an automated recurrence once a week. The day and time can be configured per service instance, whereas by default it is a random time in the night from Tuesday to Wednesday.
+          - generic [ref=e427]:
+            - heading "Users responsibilities" [level=2] [ref=e428]
+            - generic [ref=e429]:
+              - paragraph [ref=e431]: "As a DevOps company, we believe in its collaborative approach. Flawless service is only possible through a sense of responsibility on both sides. Accordingly, we rely on the user to consider the following points:"
+              - list [ref=e433]:
+                - listitem [ref=e434]:
+                  - paragraph [ref=e435]: Choose reasonably sized resources for the software consuming the service
+                - listitem [ref=e436]:
+                  - paragraph [ref=e437]: Act early when an increase in service usage is foreseen (for example increase resources)
+                - listitem [ref=e438]:
+                  - paragraph [ref=e439]: Rely on best-practices for using the service
+                - listitem [ref=e440]:
+                  - paragraph [ref=e441]:
+                    - text: Choose a matching
+                    - link "service level" [ref=e442] [cursor=pointer]:
+                      - /url: ../service_levels.html
+                    - text: for your use-case
+                - listitem [ref=e443]:
+                  - paragraph [ref=e444]:
+                    - text: Monitor service metrics and configure
+                    - link "User Alerting 🔗" [ref=e445] [cursor=pointer]:
+                      - /url: https://docs.appcat.ch/
+                    - text: to receive alerts for capacity issues
+          - generic [ref=e446]:
+            - heading "Pricing" [level=2] [ref=e447]
+            - generic [ref=e448]:
+              - table [ref=e449]:
+                - rowgroup [ref=e453]:
+                  - row [ref=e454]:
+                    - columnheader "Service Level" [ref=e455]
+                    - columnheader "per 30 days (720h)" [ref=e456]
+                - rowgroup [ref=e457]:
+                  - row [ref=e458]:
+                    - cell [ref=e459]:
+                      - paragraph [ref=e462]:
+                        - link "SLA profile Baseline" [ref=e463] [cursor=pointer]:
+                          - /url: ../service_levels.html
+                    - cell [ref=e464]:
+                      - paragraph [ref=e465]: CHF 40.00
+                  - row [ref=e466]:
+                    - cell [ref=e467]:
+                      - paragraph [ref=e470]:
+                        - link "SLA profile with availability target" [ref=e471] [cursor=pointer]:
+                          - /url: ../service_levels.html
+                        - text: not available on
+                        - link "APPUiO" [ref=e472] [cursor=pointer]:
+                          - /url: ../appuio/index.html
+                    - cell [ref=e473]:
+                      - paragraph [ref=e474]: CHF 120.00
+              - list [ref=e476]:
+                - listitem [ref=e477]:
+                  - paragraph [ref=e478]: The computing resources required for the service are not included in the price and charged additionally.
+                - listitem [ref=e479]:
+                  - paragraph [ref=e480]:
+                    - text: Inclusive
+                    - link "PostgreSQL by VSHN with CloudNativePG" [ref=e481] [cursor=pointer]:
+                      - /url: postgresql_cnpg.html
+                    - text: as database backend.
+                - listitem [ref=e482]:
+                  - paragraph [ref=e483]:
+                    - text: Support is available at additional cost via
+                    - link "Support Plans" [ref=e484] [cursor=pointer]:
+                      - /url: ../support_plans.html
+                    - text: .
+                - listitem [ref=e485]:
+                  - paragraph [ref=e486]: These prices are valid starting 2024-07-01 until further notice.
+              - paragraph [ref=e488]:
+                - text: See
+                - link "Pricing" [ref=e489] [cursor=pointer]:
+                  - /url: pricing.html
+                - text: for more details.
+          - generic [ref=e490]:
+            - 'heading "Addon: Forgejo Runner" [level=2] [ref=e491]'
+            - generic [ref=e492]:
+              - paragraph [ref=e494]:
+                - text: A
+                - link "Forgejo runner 🔗" [ref=e495] [cursor=pointer]:
+                  - /url: https://code.forgejo.org/forgejo/runner
+                - text: executes CI/CD actions based on
+                - link "Forgejo actions" [ref=e496] [cursor=pointer]:
+                  - /url: https://forgejo.org/docs/latest/user/actions/
+                - text: .
+              - paragraph [ref=e498]: This addon is available on request, as it depends on many factors, especially the requirements of the type of actions to be executed.
+          - generic [ref=e499]:
+            - heading "Service Maturity" [level=2] [ref=e500]
+            - generic [ref=e501]:
+              - paragraph [ref=e503]:
+                - text: This section describes the
+                - link "maturity 🔗" [ref=e504] [cursor=pointer]:
+                  - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html
+                - text: of this service. We are constantly improving it and adding more features to the service.
+              - table [ref=e505]:
+                - rowgroup [ref=e509]:
+                  - row [ref=e510]:
+                    - rowheader [ref=e511]:
+                      - paragraph [ref=e512]:
+                        - link "Provisioning 🔗" [ref=e513] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_initial_release_provisioning
+                    - cell [ref=e514]:
+                      - paragraph [ref=e515]: ✅
+                  - row [ref=e516]:
+                    - rowheader [ref=e517]:
+                      - paragraph [ref=e518]:
+                        - link "Backup 🔗" [ref=e519] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_backup
+                    - cell [ref=e520]:
+                      - paragraph [ref=e521]: ✅
+                  - row [ref=e522]:
+                    - rowheader [ref=e523]:
+                      - paragraph [ref=e524]:
+                        - link "Restore 🔗" [ref=e525] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_restore
+                    - cell [ref=e526]:
+                      - paragraph [ref=e527]: ❌
+                  - row [ref=e528]:
+                    - rowheader [ref=e529]:
+                      - paragraph [ref=e530]:
+                        - link "Logs 🔗" [ref=e531] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_logs
+                    - cell [ref=e532]:
+                      - paragraph [ref=e533]: ✅
+                  - row [ref=e534]:
+                    - rowheader [ref=e535]:
+                      - paragraph [ref=e536]:
+                        - link "Metrics 🔗" [ref=e537] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_metrics
+                    - cell [ref=e538]:
+                      - paragraph [ref=e539]: ❌
+                  - row [ref=e540]:
+                    - rowheader [ref=e541]:
+                      - paragraph [ref=e542]:
+                        - link "Alerting 🔗" [ref=e543] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_alerting
+                    - cell [ref=e544]:
+                      - paragraph [ref=e545]: ❌
+                  - row [ref=e546]:
+                    - rowheader [ref=e547]:
+                      - paragraph [ref=e548]:
+                        - link "Automated Maintenance 🔗" [ref=e549] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_maintenance
+                    - cell [ref=e550]:
+                      - paragraph [ref=e551]: ✅
+                  - row [ref=e552]:
+                    - rowheader [ref=e553]:
+                      - paragraph [ref=e554]:
+                        - link "Version Upgrades 🔗" [ref=e555] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_version_upgrade
+                    - cell [ref=e556]:
+                      - paragraph [ref=e557]: ❌
+                  - row [ref=e558]:
+                    - rowheader [ref=e559]:
+                      - paragraph [ref=e560]:
+                        - link "Scaling 🔗" [ref=e561] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_scaling
+                    - cell [ref=e562]:
+                      - paragraph [ref=e563]: ❌
+                  - row [ref=e564]:
+                    - rowheader [ref=e565]:
+                      - paragraph [ref=e566]:
+                        - link "User Management 🔗" [ref=e567] [cursor=pointer]:
+                          - /url: https://kb.vshn.ch/app-catalog/reference/service-maturity.html#_iteration_user_management
+                    - cell [ref=e568]:
+                      - paragraph [ref=e569]: ❌
+          - generic [ref=e570]:
+            - heading "FAQ" [level=2] [ref=e571]
+            - generic [ref=e574]:
+              - term [ref=e575]: What do I need to get the service?
+              - definition [ref=e576]:
+                - paragraph [ref=e577]:
+                  - text: Currently the service is available on
+                  - link "APPUiO" [ref=e578] [cursor=pointer]:
+                    - /url: ../appuio/index.html
+                  - text: and
+                  - link "Managed OpenShift" [ref=e579] [cursor=pointer]:
+                    - /url: ../openshift/index.html
+                  - text: . Once you have access to such a cluster, it’s a matter of creating a Kubernetes object to order a service instance. In the
+                  - link "getting started guide 🔗" [ref=e580] [cursor=pointer]:
+                    - /url: https://docs.appcat.ch/getting-started.html
+                  - text: you’ll find all the information you need to get started.
+              - term [ref=e581]: Where do I get it?
+              - definition [ref=e582]:
+                - paragraph [ref=e583]:
+                  - text: As mentioned in the previous answer, the service is available on
+                  - link "APPUiO" [ref=e584] [cursor=pointer]:
+                    - /url: ../appuio/index.html
+                  - text: and
+                  - link "Managed OpenShift" [ref=e585] [cursor=pointer]:
+                    - /url: ../openshift/index.html
+                  - text: .
+              - term [ref=e586]: Are there any extra costs?
+              - definition [ref=e587]:
+                - paragraph [ref=e588]:
+                  - text: Yes, there are usage costs associated with the service. Please refer to
+                  - link "VSHN AppCat Services Pricing" [ref=e589] [cursor=pointer]:
+                    - /url: pricing.html
+                  - text: for further information.
+              - term [ref=e590]: Who will set it up?
+              - definition [ref=e591]:
+                - paragraph [ref=e592]: All services are available in full self-service. There is no need to open a ticket and wait until the service is provisioned, it’s available immediately.
+              - term [ref=e593]: What do I need to do?
+              - definition [ref=e594]:
+                - paragraph [ref=e595]:
+                  - text: The
+                  - link "user documentation 🔗" [ref=e596] [cursor=pointer]:
+                    - /url: https://docs.appcat.ch/
+                  - text: explains everything you need to know.
+              - term [ref=e597]: Can I get it myself or do I need to contact anyone?
+              - definition [ref=e598]:
+                - paragraph [ref=e599]:
+                  - text: There is no need to contact anyone, just follow the instructions on
+                  - link "docs.appcat.ch 🔗" [ref=e600] [cursor=pointer]:
+                    - /url: https://docs.appcat.ch/
+                  - text: and you’ll be up and running in no time.
+              - term [ref=e601]: How can it be integrated in my environment?
+              - definition [ref=e602]:
+                - paragraph [ref=e603]:
+                  - text: Services are available right now on
+                  - link "APPUiO" [ref=e604] [cursor=pointer]:
+                    - /url: ../appuio/index.html
+                  - text: and
+                  - link "Managed OpenShift" [ref=e605] [cursor=pointer]:
+                    - /url: ../openshift/index.html
+                  - text: . If you want these services on your environment, please
+                  - link "contact us 🔗" [ref=e606] [cursor=pointer]:
+                    - /url: https://www.vshn.ch/en/contact/
+                  - text: and we’ll help you get started.
+              - term [ref=e607]: How can I get support?
+              - definition [ref=e608]:
+                - paragraph [ref=e609]:
+                  - text: You can either open a ticket on our
+                  - link "customer portal" [ref=e610] [cursor=pointer]:
+                    - /url: https://control.vshn.net
+                  - text: or send an email to
+                  - link "support@vshn.ch" [ref=e611] [cursor=pointer]:
+                    - /url: mailto:support@vshn.ch
+                  - text: . Please note that support is only available with our
+                  - link "support plans" [ref=e612] [cursor=pointer]:
+                    - /url: ../support_plans.html
+                  - text: .
+              - term [ref=e613]:
+                - text: What is the difference to
+                - link [ref=e614] [cursor=pointer]:
+                  - /url: ../codey.html
+                  - strong [ref=e615]: Codey
+                - text: "?"
+              - definition [ref=e616]:
+                - paragraph [ref=e617]:
+                  - text: Our
+                  - link "Codey" [ref=e618] [cursor=pointer]:
+                    - /url: ../codey.html
+                  - text: service is a full self-service SaaS offering, which includes the compute resources. It’s "batteries included", you cannot choose on which OpenShift or Kubernetes cluster Codey runs, whereas with the "Forgejo by VSHN" application catalog service, you can have it running on your own cluster. You also have more configuration options with the application catalog service and are not tied to the Codey plans.
+          - generic [ref=e619]:
+            - separator [ref=e620]
+            - generic [ref=e621]:
+              - link "1" [ref=e622] [cursor=pointer]:
+                - /url: "#_footnoteref_1"
+              - text: . With more than 1 replica, excluding version upgrade
+            - generic [ref=e623]:
+              - link "2" [ref=e624] [cursor=pointer]:
+                - /url: "#_footnoteref_2"
+              - text: . As many as Forgejo supports
+            - generic [ref=e625]:
+              - link "3" [ref=e626] [cursor=pointer]:
+                - /url: "#_footnoteref_3"
+              - text: . Depends on the underlying platform
+          - navigation [ref=e627]:
+            - generic [ref=e628]:
+              - text: Prev
+              - link "‹ Keycloak by VSHN" [ref=e629] [cursor=pointer]:
+                - /url: keycloak.html
+            - generic [ref=e630]:
+              - text: Next
+              - link "Garage by VSHN ›" [ref=e631] [cursor=pointer]:
+                - /url: garage.html
+  - contentinfo [ref=e632]:
+    - paragraph [ref=e633]:
+      - text: Copyright © VSHN 2026 – All Rights Reserved.
+      - link "Privacy Policy" [ref=e634] [cursor=pointer]:
+        - /url: https://legal.docs.vshn.ch/legal/privacy_policy_en.html
+      - text: ","
+      - link "Imprint" [ref=e635] [cursor=pointer]:
+        - /url: https://vshn.ch/en/imprint/
+      - text: ", and"
+      - link "Contact" [ref=e636] [cursor=pointer]:
+        - /url: https://vshn.ch/en/contact/
+      - text: .

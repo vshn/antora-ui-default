@@ -222,14 +222,18 @@
   // Clears timeout and searches immediately
   function searchNow (explicit) {
     if (timeout) clearTimeout(timeout)
-    var query = searchInput.value
-    if (query.length > 0) {
-      search(query, function (results, total) {
-        display(results, query)
-        updateURL(results, query)
-        reportSearch(query, total, explicit)
-      })
-    }
+    runQuery(searchInput.value, explicit, true)
+  }
+
+  // Runs a query and shows its results. updateHistory is false for a query that came from the URL,
+  // which is already the address the reader is on.
+  function runQuery (query, explicit, updateHistory) {
+    if (isEmptyOrBlank(query)) return
+    search(query, function (results, total) {
+      display(results, query)
+      if (updateHistory) updateURL(results, query)
+      reportSearch(query, total, explicit)
+    })
   }
 
   // Updates URL field when user searches
@@ -311,6 +315,14 @@
   searchButton.addEventListener('click', function (event) {
     searchNow(true)
   })
+
+  // Open the results when the page is loaded with a ?q= query, from the browser's search box
+  // (see the OpenSearch description a site can ship) or from a shared link
+  var urlQuery = new URL(window.location.href).searchParams.get('q')
+  if (urlQuery && !isEmptyOrBlank(urlQuery)) {
+    searchInput.value = urlQuery
+    runQuery(urlQuery, true, false)
+  }
 
   // A reader who leaves while results are showing has found their final query
   window.addEventListener('pagehide', flushReport)
