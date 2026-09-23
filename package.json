@@ -11,7 +11,8 @@
     "node": ">= 8.0.0"
   },
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:bundle": "PREVIEW_ASSETS=bundle playwright test"
   },
   "browserslist": [
     "last 2 versions"

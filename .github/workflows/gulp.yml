@@ -36,6 +36,9 @@ jobs:
     - name: Test preview
       run: npm test
 
+    - name: Test the published bundle assets
+      run: npm run test:bundle
+
     - name: Upload test results
       if: failure()
       uses: actions/upload-artifact@v7

@@ -107,6 +107,7 @@ const previewBuildTask = createTask({
 
 const previewServeTask = createTask({
   name: 'preview:serve',
+  desc: 'Serve the preview site that was already generated, without rebuilding it',
   call: task.serve(previewDestDir, serverConfig, () => watch(glob.all, previewBuildTask)),
 })
 
@@ -126,5 +127,6 @@ module.exports = exportTasks(
   bundlePackTask,
   previewTask,
   previewBuildTask,
+  previewServeTask,
   packTask
 )
