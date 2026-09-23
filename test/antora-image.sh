@@ -7,7 +7,9 @@ cd "$(dirname "$0")/.."
 [ -f build/ui-bundle.zip ] || { echo "build/ui-bundle.zip is missing: run gulp bundle first"; exit 1; }
 rm -rf build/antora-site
 # Antora reads content from a git repository, so commit the fixture into one inside the container
-docker run --rm -v "$PWD":/antora -w /antora --entrypoint /bin/sh "$IMAGE" -c '
+# run as the calling user, so the generated files do not end up owned by root in the workspace
+docker run --rm -v "$PWD":/antora -w /antora -u "$(id -u):$(id -g)" -e HOME=/tmp \
+  --entrypoint /bin/sh "$IMAGE" -c '
   set -e
   cp -r test/fixtures/antora-site /tmp/fixture-content
   cd /tmp/fixture-content

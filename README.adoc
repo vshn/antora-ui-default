@@ -229,6 +229,10 @@ Install the browser once, then run the tests:
  $ npx playwright install chromium
  $ npm test
 
+The same tests also run against the assets from the packaged bundle, which are minified and have the CSS custom properties resolved, unlike the preview build:
+
+ $ npm run test:bundle
+
 The tests build and serve the preview themselves.
 If `gulp preview` is already running, they reuse that server.
 

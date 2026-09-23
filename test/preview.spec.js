@@ -95,6 +95,23 @@ test.describe('preview page', () => {
     })
   }
 
+  test('serves the minified bundle assets', async ({ page }) => {
+    test.skip(process.env.PREVIEW_ASSETS !== 'bundle', 'only when run with npm run test:bundle')
+    const { origin } = await openPage(page, '/index.html')
+    const css = await (await page.request.get(`${origin}/_/css/site.css`)).text()
+    expect(css.split('\n').length, 'site.css is not minified, so these are the preview assets').toBeLessThan(10)
+    expect(css).toContain('fa-solid-900.woff2')
+  })
+
+  test('highlights code blocks with highlight.js', async ({ page }) => {
+    await openPage(page, '/index.html')
+    const block = page.locator('.doc pre code.language-toml').first()
+    await expect(block).toBeVisible()
+    // highlight.js runs in the browser and wraps tokens in spans
+    await expect(block.locator('span.hljs-section, span.hljs-string, span.hljs-attr, span.hljs-keyword').first())
+      .toBeVisible()
+  })
+
   test('renders the menu macro caret', async ({ page }) => {
     await openPage(page, '/index.html')
     const caret = page.locator('.doc .menuseq i.caret').first()

@@ -11,9 +11,10 @@ module.exports = defineConfig({
   use: { baseURL, trace: 'retain-on-failure' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'node_modules/.bin/gulp preview',
+    // PREVIEW_ASSETS=bundle serves the published bundle's assets instead of the preview build
+    command: process.env.PREVIEW_ASSETS === 'bundle' ? 'sh test/serve-bundle.sh' : 'node_modules/.bin/gulp preview',
     url: `${baseURL}/index.html`,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI && !process.env.PREVIEW_ASSETS,
     timeout: 120 * 1000,
   },
 })
