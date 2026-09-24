@@ -231,6 +231,22 @@ test.describe('search', () => {
     await expect(page.locator('article.doc h1.page')).toHaveText('Hardware and Software Requirements')
   })
 
+  test('starts Pagefind only once the page has finished loading', async ({ page }) => {
+    await openPage(page, '/index.html?q=TOML')
+    await expect(page.locator('article.doc h1.page')).toHaveText('Search Results for "TOML"')
+    // Pagefind's worker handshake times out when the main thread is still busy with the page load,
+    // and it then falls back to searching on the main thread, which took seconds on a real site
+    const timing = await page.evaluate(() => {
+      // loadEventStart, not loadEventEnd: the search starts from a load listener, so it runs
+      // while the load event is still being dispatched
+      const load = performance.getEntriesByType('navigation')[0].loadEventStart
+      const pagefind = performance.getEntriesByType('resource').filter((e) => e.name.includes('/pagefind/'))
+      return { load, firstRequest: Math.min(...pagefind.map((e) => e.startTime)) }
+    })
+    expect(timing.load).toBeGreaterThan(0)
+    expect(timing.firstRequest).toBeGreaterThanOrEqual(timing.load)
+  })
+
   test('shows a message when nothing matches', async ({ page }) => {
     await openPage(page, '/index.html')
     await searchFor(page, 'zzzqqqxxx')
