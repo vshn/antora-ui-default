@@ -100,13 +100,24 @@
       // uiRootPath is set at runtime in head-scripts.hbs
       // eslint-disable-next-line no-undef
       var url = new URL(uiRootPath + '/../pagefind/pagefind.js', window.location.href).href
-      pagefind = import(url)
+      // Wait for the page to finish loading: Pagefind starts a web worker, and its handshake times
+      // out while the main thread is still busy with the page, after which it searches on the main
+      // thread instead, which is far slower.
+      pagefind = afterPageLoad()
+        .then(function () { return import(url) })
         .then(function (module) {
           return module.init().then(function () { return module })
         })
         .catch(function () { return null })
     }
     return pagefind
+  }
+
+  function afterPageLoad () {
+    return new Promise(function (resolve) {
+      if (document.readyState === 'complete') return resolve()
+      window.addEventListener('load', function () { resolve() }, { once: true })
+    })
   }
 
   // Pagefind excerpts mark matches with <mark>; the results page shows plain text
