@@ -98,7 +98,9 @@ test.describe('preview page', () => {
   test('serves the minified bundle assets', async ({ page }) => {
     test.skip(process.env.PREVIEW_ASSETS !== 'bundle', 'only when run with npm run test:bundle')
     const { origin } = await openPage(page, '/index.html')
-    const css = await (await page.request.get(`${origin}/_/css/site.css`)).text()
+    const href = await page.locator('link[rel=stylesheet]').first().getAttribute('href')
+    expect(href, 'the stylesheet name is not fingerprinted').toMatch(/site-[0-9a-f]{8}\.css$/)
+    const css = await (await page.request.get(new URL(href, `${origin}/index.html`).href)).text()
     expect(css.split('\n').length, 'site.css is not minified, so these are the preview assets').toBeLessThan(10)
     expect(css).toContain('fa-solid-900.woff2')
   })
