@@ -1,0 +1,5 @@
+= Access Control
+
+A sample page for the search tests, so a query matches more pages than one result page shows.
+
+This page is about searchsample topic number 6: access control.
