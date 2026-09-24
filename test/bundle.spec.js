@@ -76,6 +76,22 @@ test.describe('UI bundle', () => {
     expect(checked.length).toBeGreaterThan(10)
   })
 
+  test('names the CSS and JS after their content, and references exactly those files', async () => {
+    const entries = await readZip(BUNDLE)
+    const names = entries.map(({ entry }) => entry.fileName)
+    const assets = names.filter((name) => /^(css|js)\/.*\.(css|js)$/.test(name))
+    expect(assets.length).toBeGreaterThan(2)
+    for (const asset of assets) expect(asset, 'not fingerprinted').toMatch(/-[0-9a-f]{8}\.(css|js)$/)
+
+    // every asset a template asks for must be in the bundle under that name
+    const templates = entries.filter(({ entry }) => entry.fileName.endsWith('.hbs'))
+    const referenced = templates.flatMap(({ contents }) =>
+      [...contents.toString().matchAll(/uiRootPath\}\}\}\/((?:css|js)\/[^"']+)/g)].map((m) => m[1])
+    )
+    expect(referenced.length).toBeGreaterThan(2)
+    for (const reference of referenced) expect(names, `${reference} is referenced but not shipped`).toContain(reference)
+  })
+
   test('copies the Font Awesome font byte for byte', async () => {
     const entries = await readZip(BUNDLE)
     const font = entries.find(({ entry }) => entry.fileName === 'font/fa-solid-900.woff2')

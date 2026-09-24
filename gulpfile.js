@@ -51,14 +51,24 @@ const formatTask = createTask({
   call: task.format(glob.js),
 })
 
-const buildTask = createTask({
-  name: 'build',
-  desc: 'Build and stage the UI assets for bundling',
+const buildAssetsTask = createTask({
+  name: 'build:assets',
   call: task.build(
     srcDir,
     destDir,
     process.argv.slice(2).some((name) => name.startsWith('preview'))
   ),
+})
+
+const fingerprintTask = createTask({
+  name: 'build:fingerprint',
+  call: task.fingerprint(destDir),
+})
+
+const buildTask = createTask({
+  name: 'build',
+  desc: 'Build and stage the UI assets for bundling',
+  call: series(buildAssetsTask, fingerprintTask),
 })
 
 const bundleBuildTask = createTask({
@@ -91,7 +101,7 @@ const packTask = createTask({
 
 const buildPreviewPagesTask = createTask({
   name: 'preview:build-pages',
-  call: task.buildPreviewPages(srcDir, previewSrcDir, previewDestDir, livereload),
+  call: task.buildPreviewPages(destDir, previewSrcDir, previewDestDir, livereload),
 })
 
 const previewSearchIndexTask = createTask({
@@ -102,7 +112,17 @@ const previewSearchIndexTask = createTask({
 const previewBuildTask = createTask({
   name: 'preview:build',
   desc: 'Process and stage the UI assets, generate pages for the preview, and index them for search',
-  call: series(parallel(buildTask, buildPreviewPagesTask), previewSearchIndexTask),
+  call: series(buildTask, buildPreviewPagesTask, previewSearchIndexTask),
+})
+
+// Generates the preview against the packaged assets: minified, with the custom properties resolved
+// and the file names fingerprinted, which is what a site gets. See test/serve-bundle.sh.
+// NOTE the name must not start with 'preview': the build reads the task name to decide whether it
+// is a preview build, and this one stages the production assets
+const previewBundleTask = createTask({
+  name: 'bundle:preview',
+  desc: 'Package the UI and generate the preview pages against the packaged assets',
+  call: series(bundleTask, buildPreviewPagesTask, previewSearchIndexTask),
 })
 
 const previewServeTask = createTask({
@@ -127,6 +147,7 @@ module.exports = exportTasks(
   bundlePackTask,
   previewTask,
   previewBuildTask,
+  previewBundleTask,
   previewServeTask,
   packTask
 )

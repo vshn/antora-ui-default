@@ -20,7 +20,7 @@ const yaml = require('js-yaml')
 
 const ASCIIDOC_ATTRIBUTES = { experimental: '', icons: 'font', sectanchors: '', 'source-highlighter': 'highlight.js' }
 
-module.exports = (src, previewSrc, previewDest, sink = () => map()) => (done) =>
+module.exports = (src, previewSrc, previewDest, sink = () => map()) => () =>
   Promise.all([
     loadSampleUiModel(previewSrc),
     toPromise(
@@ -28,7 +28,9 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => (done) =>
     ),
   ])
     .then(([baseUiModel, { layouts }]) => [{ ...baseUiModel, env: process.env }, layouts])
-    .then(([baseUiModel, layouts]) =>
+    // resolve only once the pages are written: a task that returns a promise resolving to a stream
+    // reports itself done before the stream has finished, and the next task then reads a half-written site
+    .then(([baseUiModel, layouts]) => new Promise((resolve, reject) =>
       vfs
         .src('**/*.adoc', { base: previewSrc, cwd: previewSrc })
         .pipe(
@@ -62,10 +64,10 @@ module.exports = (src, previewSrc, previewDest, sink = () => map()) => (done) =>
             }
           })
         )
-        .pipe(vfs.dest(previewDest))
-        .on('error', done)
+        .pipe(vfs.dest(previewDest).on('finish', resolve).on('error', reject))
+        .on('error', reject)
         .pipe(sink())
-    )
+    ))
 
 function loadSampleUiModel (src) {
   return fs.readFile(ospath.join(src, 'ui-model.yml'), 'utf8').then((contents) => yaml.safeLoad(contents))

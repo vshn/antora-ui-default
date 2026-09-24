@@ -21,6 +21,7 @@ if [ ! -f "$page" ]; then
   echo "FAIL: Antora in $IMAGE generated no page with this UI bundle"
   exit 1
 fi
-grep -q '_/css/site.css' "$page" || { echo "FAIL: $page does not use the UI bundle"; exit 1; }
+# the UI asset names carry a content hash, so match the stem
+grep -qE '_/css/site(-[0-9a-f]{8})?\.css' "$page" || { echo "FAIL: $page does not use the UI bundle"; exit 1; }
 grep -q 'admonitionblock note' "$page" || { echo "FAIL: $page is missing the admonition"; exit 1; }
 echo "OK: Antora in $IMAGE built $page with this UI bundle"
