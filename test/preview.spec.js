@@ -215,6 +215,20 @@ test.describe('search', () => {
     await expect.poll(() => events).toContainEqual(['Search Result Click', { query: 'toml', position: '1' }])
   })
 
+  test('opens the results when the page is loaded with a ?q= query', async ({ page }) => {
+    const { consoleErrors } = await openPage(page, '/index.html?q=TOML')
+    await expect(page.locator('article.doc h1.page')).toHaveText('Search Results for "TOML"')
+    await expect(page.locator('#search-input')).toHaveValue('TOML')
+    await expect(page.locator('article.doc .search-entry').first()).toHaveText('Hardware and Software Requirements')
+    expect(new URL(page.url()).searchParams.get('q')).toBe('TOML')
+    expect(consoleErrors).toEqual([])
+  })
+
+  test('shows the page itself when the query is empty', async ({ page }) => {
+    await openPage(page, '/index.html?q=')
+    await expect(page.locator('article.doc h1.page')).toHaveText('Hardware and Software Requirements')
+  })
+
   test('shows a message when nothing matches', async ({ page }) => {
     await openPage(page, '/index.html')
     await searchFor(page, 'zzzqqqxxx')
