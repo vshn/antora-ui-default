@@ -18,7 +18,14 @@ module.exports = (dest) => async () => {
     const file = ospath.join(dest, asset)
     if (!(await fs.pathExists(file))) continue
     const extname = ospath.extname(asset)
-    const fingerprinted = `${asset.slice(0, -extname.length)}-${hash(await fs.readFile(file))}${extname}`
+    const stem = asset.slice(0, -extname.length)
+    const fingerprinted = `${stem}-${hash(await fs.readFile(file))}${extname}`
+    // drop what an earlier build of this directory left behind, so the staged UI holds one of each
+    const dir = ospath.join(dest, ospath.dirname(asset))
+    const stale = new RegExp(`^${ospath.basename(stem)}-[0-9a-f]{8}\\${extname}(\\.map)?$`)
+    for (const name of await fs.readdir(dir)) {
+      if (stale.test(name)) await fs.remove(ospath.join(dir, name))
+    }
     const map = `${file}.map`
     if (await fs.pathExists(map)) {
       // keep the sourcemap next to the file it belongs to, and keep the reference inside it valid
