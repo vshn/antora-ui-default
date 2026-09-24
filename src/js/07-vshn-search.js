@@ -60,6 +60,7 @@
   // The query variable is a string entered by the user.
   function display (results, query, more) {
     if (isEmptyOrBlank(query)) {
+      shownQuery = null
       // Display the original page in lieu of the search results if not done yet
       if (!mainArticle.parentNode) {
         contentDiv.replaceChild(mainArticle, searchArticle)
@@ -267,16 +268,34 @@
     runQuery(searchInput.value, explicit, true)
   }
 
+  // The results shown right now, so that pressing Enter after the search that ran on a pause in
+  // typing does not search and render the same query a second time
+  var shownQuery = null
+  var runningQuery = null
+
   // Runs a query and shows its results. updateHistory is false for a query that came from the URL,
   // which is already the address the reader is on.
   function runQuery (query, explicit, updateHistory) {
     if (isEmptyOrBlank(query)) return
+    if (query === shownQuery) {
+      // already on screen: only the address and the report are still owed
+      if (updateHistory) updateURL(null, query)
+      reportSearch(query, shownTotal, explicit)
+      return
+    }
+    if (query === runningQuery) return
+    runningQuery = query
     search(query, function (results, total, more) {
+      runningQuery = null
+      shownQuery = query
+      shownTotal = total
       display(results, query, more)
       if (updateHistory) updateURL(results, query)
       reportSearch(query, total, explicit)
     })
   }
+
+  var shownTotal = 0
 
   // Updates URL field when user searches
   function updateURL (results, query) {
@@ -357,6 +376,18 @@
   searchButton.addEventListener('click', function (event) {
     searchNow(true)
   })
+
+  // Load Pagefind while the reader is reading, so the first search only needs its index chunk.
+  // It waits for the page and for an idle moment, and steps aside when the reader asked to save data.
+  function warmUp () {
+    var connection = window.navigator.connection
+    if (connection && connection.saveData) return
+    afterPageLoad().then(function () {
+      var whenIdle = window.requestIdleCallback || function (callback) { return window.setTimeout(callback, 1000) }
+      whenIdle(function () { loadPagefind() }, { timeout: 4000 })
+    })
+  }
+  warmUp()
 
   // Open the results when the page is loaded with a ?q= query, from the browser's search box
   // (see the OpenSearch description a site can ship) or from a shared link

@@ -11,7 +11,8 @@ const ALLOWED_THIRD_PARTY_URLS = [
 const ADMONITIONS = ['note', 'tip', 'warning', 'caution', 'important']
 const ICON_MACROS = ['check', 'times', 'glasses', 'users-cog']
 
-async function openPage (page, path) {
+// setUp runs before the page is opened, for tests that need their routes in place from the start
+async function openPage (page, path, setUp) {
   const origin = new URL(test.info().project.use.baseURL).origin
   const thirdParty = []
   const failed = []
@@ -39,6 +40,7 @@ async function openPage (page, path) {
     plausibleScripts.push(route.request().url())
     return route.fulfill({ contentType: 'text/javascript', body: '' })
   })
+  if (setUp) await setUp(page)
   await page.goto(path)
   await page.evaluate(() => document.fonts.ready)
   return { origin, thirdParty, failed, consoleErrors, plausibleScripts }
@@ -157,17 +159,37 @@ test.describe('search', () => {
     expect(consoleErrors).toEqual([])
   })
 
-  test('loads Pagefind only once the reader shows intent to search', async ({ page }) => {
-    const pagefindRequests = []
+  test('loads Pagefind after the page, without waiting for the reader to search', async ({ page }) => {
+    const requests = []
     page.on('request', (req) => {
-      if (req.url().includes('/pagefind/')) pagefindRequests.push(new URL(req.url()).pathname)
+      if (req.url().includes('/pagefind/')) requests.push({ path: new URL(req.url()).pathname, at: Date.now() })
     })
     await openPage(page, '/index.html')
-    await page.waitForLoadState('networkidle')
-    expect(pagefindRequests).toEqual([])
-    await page.locator('#search-input').focus()
-    await expect.poll(() => pagefindRequests).toContain('/pagefind/pagefind.js')
+    const loadEnd = Date.now()
+    // nothing while the page itself is loading
+    expect(requests.filter((r) => r.at < loadEnd - 50)).toEqual([])
+    // but warmed up on its own, without a click, a hover or a keystroke
+    await expect.poll(() => requests.map((r) => r.path), { timeout: 10000 }).toContain('/pagefind/pagefind.js')
     expect(await page.locator('article.doc h1.page').textContent()).not.toMatch(/Search Results/)
+  })
+
+  test('searches once when the reader types and then presses Enter', async ({ page }) => {
+    await openPage(page, '/index.html')
+    await page.locator('#search-input').pressSequentially('searchsample', { delay: 60 })
+    // the search that runs after a pause in typing
+    await expect(page.locator('article.doc h1.page')).toHaveText('Search Results for "searchsample"')
+
+    // mark the rendered results: a second search for the same query would replace these nodes
+    await page.evaluate(() => {
+      document.querySelectorAll('article.doc .search-div').forEach((el, i) => { el.dataset.marker = 'kept-' + i })
+    })
+    await page.locator('#search-input').press('Enter')
+    await expect.poll(() => new URL(page.url()).searchParams.get('q')).toBe('searchsample')
+    await page.waitForTimeout(800)
+
+    const markers = await page.locator('article.doc .search-div')
+      .evaluateAll((els) => els.map((el) => el.dataset.marker))
+    expect(markers.every((marker) => marker), 'the results were rendered again by a second search').toBe(true)
   })
 
   // Replaces plausible() with a recorder that survives navigation
@@ -277,16 +299,17 @@ test.describe('search', () => {
   })
 
   test('falls back to the /search endpoint on sites without a Pagefind index', async ({ page }) => {
-    await openPage(page, '/index.html')
-    await page.route('**/pagefind/pagefind.js', (route) => route.fulfill({ status: 404 }))
-    await page.route('**/search?q=*', (route) => route.fulfill({
-      json: [{
-        name: 'Result from the server',
-        href: '/server-result.html',
-        excerpt: 'Found by the search container',
-        version: '',
-      }],
-    }))
+    await openPage(page, '/index.html', async (p) => {
+      await p.route('**/pagefind/pagefind.js', (route) => route.fulfill({ status: 404 }))
+      await p.route('**/search?q=*', (route) => route.fulfill({
+        json: [{
+          name: 'Result from the server',
+          href: '/server-result.html',
+          excerpt: 'Found by the search container',
+          version: '',
+        }],
+      }))
+    })
     await searchFor(page, 'TOML')
     await expect(page.locator('article.doc .search-entry')).toHaveText(['Result from the server'])
     await expect(page.locator('article.doc .search-excerpt')).toHaveText(['Found by the search container'])
