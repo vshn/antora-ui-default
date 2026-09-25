@@ -173,6 +173,27 @@ test.describe('search', () => {
     expect(await page.locator('article.doc h1.page').textContent()).not.toMatch(/Search Results/)
   })
 
+  test('does not warm up on a metered connection, but still searches when asked', async ({ page }) => {
+    const requests = []
+    page.on('request', (req) => {
+      if (req.url().includes('/pagefind/')) requests.push(new URL(req.url()).pathname)
+    })
+    await openPage(page, '/index.html', async (p) => {
+      await p.addInitScript(() => {
+        Object.defineProperty(window.navigator, 'connection', { value: { saveData: true }, configurable: true })
+      })
+    })
+    // no speculative download for a reader who asked to save data
+    await page.waitForTimeout(5000)
+    expect(requests).toEqual([])
+
+    // but reaching for the search box is a request to search, so it loads then
+    await page.locator('#search-input').focus()
+    await expect.poll(() => requests).toContain('/pagefind/pagefind.js')
+    await searchFor(page, 'searchsample')
+    await expect(page.locator('article.doc .search-entry').first()).toBeVisible()
+  })
+
   test('searches once when the reader types and then presses Enter', async ({ page }) => {
     await openPage(page, '/index.html')
     await page.locator('#search-input').pressSequentially('searchsample', { delay: 60 })
