@@ -909,6 +909,27 @@ h1.page + aside.toc.embedded {
   color: #545454;
 }
 
+.doc .search-more {
+  margin: 0.5rem 0 0 10px;
+  padding: 0.4rem 0.9rem;
+  font-family: inherit;
+  font-size: small;
+  color: var(--link-font-color);
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.doc .search-more:hover {
+  border-color: var(--link-font-color);
+}
+
+.doc .search-more[disabled] {
+  cursor: default;
+  opacity: 0.5;
+}
+
 /* Used in the legal documents by docgen to mark SignRequest fields */
 
 .srfield {

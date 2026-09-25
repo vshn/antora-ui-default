@@ -58,7 +58,7 @@
   // Builds the HTML structure of the list of search results
   // The results variable is an array of objects with 'name', 'href' and 'excerpt' keys.
   // The query variable is a string entered by the user.
-  function display (results, query) {
+  function display (results, query, more) {
     if (isEmptyOrBlank(query)) {
       // Display the original page in lieu of the search results if not done yet
       if (!mainArticle.parentNode) {
@@ -78,10 +78,8 @@
       searchResult.innerText = 'No results found.'
       searchArticle.appendChild(searchResult)
     } else {
-      results.forEach(function (item, idx) {
-        var searchDiv = createSearchResultsDiv(item, website, idx + 1, query)
-        searchArticle.appendChild(searchDiv)
-      })
+      appendResults(results, query)
+      if (more) appendMoreButton(query, more)
     }
     // Replace the current page with a "search results" page if not done yet
     if (!searchArticle.parentNode) {
@@ -90,7 +88,32 @@
     }
   }
 
-  var MAX_RESULTS = 10
+  function appendResults (results, query) {
+    var shown = searchArticle.querySelectorAll('.search-div').length
+    results.forEach(function (item, idx) {
+      searchArticle.appendChild(createSearchResultsDiv(item, website, shown + idx + 1, query))
+    })
+  }
+
+  // Each result costs a request for its excerpt, so the rest are fetched only when asked for
+  function appendMoreButton (query, more) {
+    var button = document.createElement('button')
+    button.className = 'search-more'
+    button.type = 'button'
+    button.innerText = 'Show more results'
+    button.addEventListener('click', function () {
+      button.disabled = true
+      more(PAGE_SIZE).then(function (next) {
+        searchArticle.removeChild(button)
+        appendResults(next.results, query)
+        if (next.more) appendMoreButton(query, next.more)
+      })
+    })
+    searchArticle.appendChild(button)
+  }
+
+  // How many results are shown at a time
+  var PAGE_SIZE = 5
 
   // Loads the Pagefind index the site's build generated next to the UI, once.
   // Resolves to null when the site has none, so search falls back to the /search endpoint.
@@ -129,23 +152,31 @@
   function search (query, callback) {
     loadPagefind().then(function (module) {
       if (!module) return serverSearch(query, callback)
-      var total
-      return module.search(query)
-        .then(function (response) {
-          total = response.results.length
-          return Promise.all(response.results.slice(0, MAX_RESULTS).map(function (result) { return result.data() }))
+      return module.search(query).then(function (response) {
+        var total = response.results.length
+        var taken = 0
+        // fetches the next count results, and says whether any are left
+        function take (count) {
+          var slice = response.results.slice(taken, taken + count)
+          taken += slice.length
+          return Promise.all(slice.map(function (result) { return result.data() })).then(function (pages) {
+            return { results: pages.map(toResult), more: taken < total ? take : null }
+          })
+        }
+        return take(PAGE_SIZE).then(function (page) {
+          callback(page.results, total, page.more)
         })
-        .then(function (pages) {
-          callback(pages.map(function (page) {
-            return {
-              name: page.meta.title,
-              href: page.url,
-              excerpt: plainText(page.excerpt),
-              version: page.meta.version || '',
-            }
-          }), total)
-        })
+      })
     })
+  }
+
+  function toResult (page) {
+    return {
+      name: page.meta.title,
+      href: page.url,
+      excerpt: plainText(page.excerpt),
+      version: page.meta.version || '',
+    }
   }
 
   // Searches through the search engine container behind /search, for sites without a Pagefind index
@@ -240,8 +271,8 @@
   // which is already the address the reader is on.
   function runQuery (query, explicit, updateHistory) {
     if (isEmptyOrBlank(query)) return
-    search(query, function (results, total) {
-      display(results, query)
+    search(query, function (results, total, more) {
+      display(results, query, more)
       if (updateHistory) updateURL(results, query)
       reportSearch(query, total, explicit)
     })

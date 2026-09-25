@@ -247,6 +247,29 @@ test.describe('search', () => {
     expect(timing.firstRequest).toBeGreaterThanOrEqual(timing.load)
   })
 
+  test('shows the first five results and the rest on request', async ({ page }) => {
+    await openPage(page, '/index.html')
+    await searchFor(page, 'searchsample')
+    const entries = page.locator('article.doc .search-entry')
+    await expect(entries).toHaveCount(5)
+    const more = page.locator('article.doc .search-more')
+    await expect(more).toBeVisible()
+    await more.click()
+    await expect.poll(() => entries.count()).toBeGreaterThan(5)
+  })
+
+  test('looks up the index at most twice while a word is typed', async ({ page }) => {
+    const lookups = []
+    page.on('request', (req) => {
+      if (req.url().includes('/pagefind/index/')) lookups.push(req.url())
+    })
+    await openPage(page, '/index.html')
+    await page.locator('#search-input').focus()
+    await page.locator('#search-input').pressSequentially('searchsample', { delay: 60 })
+    await page.waitForTimeout(1500)
+    expect(lookups.length, 'one index lookup per keystroke').toBeLessThanOrEqual(2)
+  })
+
   test('shows a message when nothing matches', async ({ page }) => {
     await openPage(page, '/index.html')
     await searchFor(page, 'zzzqqqxxx')
